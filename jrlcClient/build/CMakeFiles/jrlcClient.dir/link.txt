@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/jrlcClient.dir/TCPClient.cpp.o -o jrlcClient 

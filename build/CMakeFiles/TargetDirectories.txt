@@ -1,0 +1,8 @@
+/home/lt/workspace/black-box/TCP/build/CMakeFiles/edit_cache.dir
+/home/lt/workspace/black-box/TCP/build/CMakeFiles/rebuild_cache.dir
+/home/lt/workspace/black-box/TCP/build/jrlcServer/CMakeFiles/jrlcServer.dir
+/home/lt/workspace/black-box/TCP/build/jrlcServer/CMakeFiles/edit_cache.dir
+/home/lt/workspace/black-box/TCP/build/jrlcServer/CMakeFiles/rebuild_cache.dir
+/home/lt/workspace/black-box/TCP/build/jrlcClient/CMakeFiles/jrlcClient.dir
+/home/lt/workspace/black-box/TCP/build/jrlcClient/CMakeFiles/edit_cache.dir
+/home/lt/workspace/black-box/TCP/build/jrlcClient/CMakeFiles/rebuild_cache.dir

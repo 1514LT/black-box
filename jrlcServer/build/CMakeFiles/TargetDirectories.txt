@@ -1,0 +1,3 @@
+/home/jrlc/workspace/TCP/jrlcServer/build/CMakeFiles/rebuild_cache.dir
+/home/jrlc/workspace/TCP/jrlcServer/build/CMakeFiles/edit_cache.dir
+/home/jrlc/workspace/TCP/jrlcServer/build/CMakeFiles/jrlcServer.dir
