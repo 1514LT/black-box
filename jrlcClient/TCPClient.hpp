@@ -13,7 +13,10 @@
 enum MessageType {
     BUFF,
     LOG,
-    BINAREAY
+    BINAREAY,
+    REQUIRE_DATE,
+    JSON_DATE,
+    END
 };
 
 struct Message {

@@ -34,7 +34,7 @@ void TCPClient::sendMessage(const Message &message)
 
     // Send message content
     send(clientSocket, message.content.c_str(), contentSize, 0);
-    printf("SEND MSG:%d,%s,size:%lu\n",message.type,message.content.c_str(),sizeof(message));
+    printf("SEND MSG:%d\n%s\nsize:%lu\n",message.type,message.content.c_str(),sizeof(message));
 }
 
 void TCPClient::receiveMessage(Message &message)
@@ -62,14 +62,21 @@ TCPClient::~TCPClient()
 }
 
 
-int main()
+int main(int argc, char const *argv[])
 {
-    TCPClient client("192.168.2.82", 8000); // Connect to server at IP 127.0.0.1, port 12345
+    if(argc!=3)
+    {
+        printf("input Ip and Port!\n");
+        return -1;
+    }
+    const char *ip=argv[1];
+    int port=std::stoi(argv[2]);
+    TCPClient client(ip,port); // Connect to server at IP  port 
     Message msg;
-    msg.type = MessageType::LOG;
-    msg.content="HELLO";
+    msg.type = MessageType::REQUIRE_DATE;
+    msg.content="REQUIRE_DATE";
     client.sendMessage(msg);
-    Message back;
-    client.receiveMessage(back);
+    Message recv;
+    client.receiveMessage(recv);
     return 0;
 }

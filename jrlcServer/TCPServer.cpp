@@ -40,7 +40,11 @@ void TCPServer::acceptConnections()
             continue;
         }
         clientSockets.push_back(clientSocket);
-        std::cout << "Client connected" << std::endl;
+        char ipBuffer[INET_ADDRSTRLEN];
+        inet_ntop(AF_INET, &(clientAddress.sin_addr), ipBuffer, INET_ADDRSTRLEN);
+        int clientPort = ntohs(clientAddress.sin_port);
+
+        std::cout << "Client connected from IP: " << ipBuffer << " Port: " << clientPort << std::endl;
         return;
     }
 }
@@ -56,7 +60,7 @@ void TCPServer::sendMessage(int clientSocket, const Message &message)
 
     // Send message content
     send(clientSocket, message.content.c_str(), contentSize, 0);
-    printf("SEND MSG:%d,%s,size:%lu\n",message.type,message.content.c_str(),sizeof(message));
+    printf("SEND MSG:%d\n%s\nsize:%lu\n",message.type,message.content.c_str(),sizeof(message));
 }
 
 void TCPServer::receiveMessage(int clientSocket, Message &message)
@@ -94,11 +98,28 @@ TCPServer::~TCPServer()
         close(clientSocket);
     }
 }
-
-
-int main()
+std::string TCPServer::read_file_contents(const std::string &file_name)
 {
-    TCPServer server(8000); // Initialize server on port 12345
+    std::ifstream file(file_name);
+    if (!file.is_open()) {
+        return "文件不存在";
+    }
+
+    std::string content((std::istreambuf_iterator<char>(file)),
+                        (std::istreambuf_iterator<char>()));
+    
+    return content;
+}
+
+int main(int argc, char const *argv[])
+{
+    if(argc!=2)
+    {
+        printf("input Ip and Port!\n");
+        return -1;
+    }
+    int port=std::stoi(argv[1]);
+    TCPServer server(port); // Initialize server on port 12345
     
     server.acceptConnections();
     
@@ -107,10 +128,14 @@ int main()
     {
     Message msg;
     server.receiveMessage(socket,msg);
-    Message back;
-    back.type=MessageType::BUFF;
-    back.content="RECV";
-    server.sendMessage(socket,back);
+    if(msg.type==MessageType::REQUIRE_DATE)
+    {
+    Message send;
+    send.type=MessageType::JSON_DATE;
+    send.content=server.read_file_contents(JSON1);
+    server.sendMessage(socket,send);
+    }
+    
     }
     return 0;
 }
