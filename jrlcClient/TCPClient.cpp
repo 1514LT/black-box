@@ -39,7 +39,21 @@ void TCPClient::sendMessage(const Message &message)
 
 void TCPClient::receiveMessage(Message &message)
 {
-    recv(clientSocket, &message, sizeof(message), 0);
+    // Receive message type
+    recv(clientSocket, &message.type, sizeof(message.type), 0);
+
+    // Receive message content size
+    int contentSize;
+    recv(clientSocket, &contentSize, sizeof(contentSize), 0);
+
+    // Receive message content
+    char contentBuffer[contentSize + 1]; // +1 for null terminator
+    recv(clientSocket, contentBuffer, contentSize, 0);
+    contentBuffer[contentSize] = '\0'; // Null-terminate the received content
+
+    message.content = contentBuffer;
+    printf("RESV:\n");
+    printf("MsgType:%d\nMsgDate:%s\n",message.type,message.content.c_str());
 }
 
 TCPClient::~TCPClient()
@@ -55,5 +69,7 @@ int main()
     msg.type = MessageType::LOG;
     msg.content="HELLO";
     client.sendMessage(msg);
+    Message back;
+    client.receiveMessage(back);
     return 0;
 }

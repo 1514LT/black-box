@@ -1,5 +1,6 @@
 file(REMOVE_RECURSE
   "CMakeFiles/jrlcServer.dir/TCPServer.cpp.o"
+  "CMakeFiles/jrlcServer.dir/TCPServer.cpp.o.d"
   "jrlcServer"
   "jrlcServer.pdb"
 )

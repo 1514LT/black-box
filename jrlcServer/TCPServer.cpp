@@ -47,7 +47,16 @@ void TCPServer::acceptConnections()
 
 void TCPServer::sendMessage(int clientSocket, const Message &message)
 {
-    send(clientSocket, &message, sizeof(message), 0);
+        // Send message type
+    send(clientSocket, &message.type, sizeof(message.type), 0);
+
+    // Send message content size
+    int contentSize = message.content.size();
+    send(clientSocket, &contentSize, sizeof(contentSize), 0);
+
+    // Send message content
+    send(clientSocket, message.content.c_str(), contentSize, 0);
+    printf("SEND MSG:%d,%s,size:%lu\n",message.type,message.content.c_str(),sizeof(message));
 }
 
 void TCPServer::receiveMessage(int clientSocket, Message &message)
@@ -98,6 +107,10 @@ int main()
     {
     Message msg;
     server.receiveMessage(socket,msg);
+    Message back;
+    back.type=MessageType::BUFF;
+    back.content="RECV";
+    server.sendMessage(socket,back);
     }
     return 0;
 }

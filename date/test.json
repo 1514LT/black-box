@@ -1,0 +1,24 @@
+{
+    "timestamp": "14:24:55.214912695",
+    "time_delta": 1.000080943,
+    "hostname": "jrlc-PC",
+    "event": {
+      "type":"USER",
+      "work_statu":"Running State",
+      "name": "lttng_ust_tracef:event",
+      "context": {
+        "cpu_id": 3
+      },
+      "payload": {
+        "msg_length": 20,
+        "msg_type":"INFO",
+        "msg": "106:hello lttng, 105"
+      }
+    },
+    "custom_fields": {
+      "additional_info": "Some extra information",
+      "user_id": 105,
+      "event_type": "user_event"
+    }
+  }
+  
