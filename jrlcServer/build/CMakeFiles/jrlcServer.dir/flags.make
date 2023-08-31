@@ -4,7 +4,7 @@
 # compile CXX with /usr/bin/c++
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/lt/workspace/black-box/TCP/jrlcServer
+CXX_INCLUDES = -I/usr/include/jsoncpp -I/home/lt/workspace/black-box/TCP/jrlcServer
 
 CXX_FLAGS = -std=gnu++11
 

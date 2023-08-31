@@ -67,7 +67,6 @@ void TCPServer::receiveMessage(int clientSocket, Message &message)
 {
     // Receive message type
     recv(clientSocket, &message.type, sizeof(message.type), 0);
-
     // Receive message content size
     int contentSize;
     recv(clientSocket, &contentSize, sizeof(contentSize), 0);
@@ -84,8 +83,17 @@ void TCPServer::receiveMessage(int clientSocket, Message &message)
 
 void TCPServer::closeClientSocket(int clientSocket)
 {
-    close(clientSocket);
-    std::cout << "Client disconnected" << std::endl;
+    auto it = std::find(clientSockets.begin(), clientSockets.end(), clientSocket);
+    if (it != clientSockets.end())
+    {
+        close(clientSocket);
+        std::cout << "Client disconnected from socket: " << clientSocket << std::endl;
+        clientSockets.erase(it);
+    }
+    else
+    {
+        std::cout << "Client socket not found in the list." << std::endl;
+    }
 }
 std::vector<int> TCPServer::getSockets() const
 {
@@ -93,7 +101,6 @@ std::vector<int> TCPServer::getSockets() const
 }
 TCPServer::~TCPServer()
 {
-    close(serverSocket);
     for (int clientSocket : clientSockets) {
         close(clientSocket);
     }
@@ -110,7 +117,79 @@ std::string TCPServer::read_file_contents(const std::string &file_name)
     
     return content;
 }
+int TCPServer::getSock()
+{
+    return this->serverSocket;
+}
 
+void TCPServer::setSock(int socket)
+{
+    this->serverSocket=socket;
+}
+
+std::string JsonToString(const Json::Value& jsonObject) {
+    Json::StreamWriterBuilder writer;
+    std::string jsonString = Json::writeString(writer, jsonObject);
+    return jsonString;
+}
+
+Json::Value StringToJson(const std::string& jsonString) {
+    Json::CharReaderBuilder readerBuilder;
+    Json::Value root;
+    std::istringstream jsonStream(jsonString);
+    std::string errors;
+
+    bool parsingSuccessful = Json::parseFromStream(readerBuilder, jsonStream, &root, &errors);
+    if (!parsingSuccessful) {
+        return Json::Value();
+    }
+
+    return root;
+}
+
+std::string TCPServer::ProcessRequest(std::string request)
+{
+    std::string buf=read_file_contents(request);
+    printf("read_buf:%s\n",buf.c_str());
+    return buf;
+}
+std::string TCPServer::ProcessMsgType(std::string msgType)
+{
+    std::string msgTypes[]={"LOG","INFO","NetStatus","SYSSTATUE"};
+    int arry_size=sizeof(msgTypes)/sizeof(msgTypes[0]);
+    int index=0;
+    size_t startPos=1;
+    for(index=0;index<arry_size;index++)
+    {
+      if(msgType.find(msgTypes[index])!=std::string::npos)
+      {
+        startPos=0;
+        break;
+      }
+    }
+    if(startPos!=0)
+    {
+      std::cout << "msgType not found" << std::endl;
+      return "msgType not found";
+    }
+    std::string buf="";
+    switch (index)
+    {
+    case MessageType::LOG:
+        break;
+    case MessageType::INFO:
+        buf=ProcessRequest(Msg_INFO);
+        break;
+    case MessageType::SYSSTATUE:
+        break;
+    case MessageType::NetStatus:
+        buf=ProcessRequest(Msg_NetStatus);
+        break;
+    default:
+        break;
+    }
+    return buf;
+}
 int main(int argc, char const *argv[])
 {
     if(argc!=2)
@@ -120,22 +199,44 @@ int main(int argc, char const *argv[])
     }
     int port=std::stoi(argv[1]);
     TCPServer server(port); // Initialize server on port 12345
-    
-    server.acceptConnections();
-    
-    std::vector<int> connectedSockets = server.getSockets();
-    for (int socket : connectedSockets)
+    while(1)
     {
-    Message msg;
-    server.receiveMessage(socket,msg);
-    if(msg.type==MessageType::REQUIRE_DATE)
-    {
-    Message send;
-    send.type=MessageType::JSON_DATE;
-    send.content=server.read_file_contents(JSON1);
-    server.sendMessage(socket,send);
-    }
-    
+        server.acceptConnections();
+        
+        std::vector<int> connectedSockets = server.getSockets();
+        for (int socket : connectedSockets)
+        {
+            unsigned char buf[256] = "";
+            void *p=buf;
+            // std::string buf="";
+            int connectFlage=recv(socket, p, sizeof(buf), 0);
+            printf("------>buf:%s,size:%lu\n",buf,strlen((char*)p));
+            if(connectFlage==0 || strlen((char*)p)<5)
+            {
+                if(strlen((char*)p)==2)
+                {
+                    printf("ping 测试链接到来\n");
+                    sleep(5);
+                }
+                printf("客户端断开了\n");
+                server.closeClientSocket(socket);
+                continue;
+            }
+            std::string MSG_Date(reinterpret_cast<char*>(buf));
+            Json::Value root;
+            root=StringToJson(MSG_Date);
+            std::string MSG_Type=root["MSG_Type"].asString();
+            printf("MSG_Type:%s\n",MSG_Type.c_str());
+            try
+            {
+                std::string date=server.ProcessMsgType(MSG_Type);
+                send(socket,date.c_str(),strlen(date.c_str()),0);
+            }
+            catch(const std::exception& e)
+            {
+                std::cerr << e.what() << '\n';
+            } 
+        }
     }
     return 0;
 }

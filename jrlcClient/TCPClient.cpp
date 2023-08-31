@@ -22,7 +22,10 @@ TCPClient::TCPClient(const char *serverIP, int serverPort)
         exit(EXIT_FAILURE);
     }
 }
-
+int TCPClient::getSocket()
+{
+    return this->clientSocket;
+}
 void TCPClient::sendMessage(const Message &message)
 {
     // Send message type
@@ -72,11 +75,19 @@ int main(int argc, char const *argv[])
     const char *ip=argv[1];
     int port=std::stoi(argv[2]);
     TCPClient client(ip,port); // Connect to server at IP  port 
+    #if 0
     Message msg;
     msg.type = MessageType::REQUIRE_DATE;
     msg.content="REQUIRE_DATE";
     client.sendMessage(msg);
     Message recv;
     client.receiveMessage(recv);
+    #else
+    std::string str=R"({"MSG_Type":"NetStatus"})";
+    send(client.getSocket(),str.c_str(),strlen(str.c_str()),0);
+    unsigned char buf[256] = "";
+    recv(client.getSocket(), buf, sizeof(buf), 0);
+    printf("buf=%s\n", buf);
+    #endif
     return 0;
 }

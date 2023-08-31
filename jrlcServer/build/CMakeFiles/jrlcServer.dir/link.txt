@@ -1,1 +1,1 @@
-/usr/bin/c++ CMakeFiles/jrlcServer.dir/TCPServer.cpp.o -o jrlcServer 
+/usr/bin/c++ CMakeFiles/jrlcServer.dir/TCPServer.cpp.o -o jrlcServer  -ljsoncpp 

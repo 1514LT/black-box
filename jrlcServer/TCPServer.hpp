@@ -13,15 +13,16 @@
 #include <vector>
 #include <string>
 #include <fstream>
+#include <json/json.h>
+#include <algorithm>
 // #include "Msg.hpp"
-#define JSON1   "/home/lt/workspace/black-box/TCP/date/test.json"
+#define Msg_INFO   "/home/lt/workspace/black-box/TCP/date/test.json"
+#define Msg_NetStatus "/home/lt/workspace/black-box/profile/NetworkStatus.json"
 enum MessageType {
-    BUFF,
     LOG,
-    BINAREAY,
-    REQUIRE_DATE,
-    JSON_DATE,
-    END
+    INFO,
+    NetStatus,
+    SYSSTATUE
 };
 
 
@@ -41,10 +42,14 @@ public:
     TCPServer(int port);
     std::vector<int> getSockets() const;
     void acceptConnections();
+    int getSock();
+    void setSock(int socket);
     void sendMessage(int clientSocket, const Message &message);
     void receiveMessage(int clientSocket, Message &message);
     void closeClientSocket(int clientSocket);
+    std::string ProcessMsgType(std::string msgType);
     std::string read_file_contents(const std::string &file_name);
+    std::string ProcessRequest(std::string request);
     ~TCPServer();
 };
 

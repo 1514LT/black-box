@@ -178,4 +178,38 @@ CMakeFiles/jrlcServer.dir/TCPServer.cpp.o: \
  /usr/include/c++/11/bits/codecvt.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/basic_file.h \
  /usr/include/x86_64-linux-gnu/c++/11/bits/c++io.h \
- /usr/include/c++/11/bits/fstream.tcc
+ /usr/include/c++/11/bits/fstream.tcc /usr/include/jsoncpp/json/json.h \
+ /usr/include/jsoncpp/json/config.h /usr/include/c++/11/cstddef \
+ /usr/include/c++/11/memory /usr/include/c++/11/bits/stl_tempbuf.h \
+ /usr/include/c++/11/bits/stl_raw_storage_iter.h \
+ /usr/include/c++/11/bits/align.h /usr/include/c++/11/bit \
+ /usr/include/c++/11/bits/uses_allocator.h \
+ /usr/include/c++/11/bits/unique_ptr.h /usr/include/c++/11/utility \
+ /usr/include/c++/11/bits/stl_relops.h /usr/include/c++/11/tuple \
+ /usr/include/c++/11/array /usr/include/c++/11/bits/invoke.h \
+ /usr/include/c++/11/bits/shared_ptr.h \
+ /usr/include/c++/11/bits/shared_ptr_base.h \
+ /usr/include/c++/11/bits/allocated_ptr.h \
+ /usr/include/c++/11/bits/refwrap.h \
+ /usr/include/c++/11/ext/aligned_buffer.h \
+ /usr/include/c++/11/ext/concurrence.h \
+ /usr/include/c++/11/bits/shared_ptr_atomic.h \
+ /usr/include/c++/11/bits/atomic_base.h \
+ /usr/include/c++/11/bits/atomic_lockfree_defines.h \
+ /usr/include/c++/11/backward/auto_ptr.h /usr/include/c++/11/sstream \
+ /usr/include/c++/11/bits/sstream.tcc \
+ /usr/include/jsoncpp/json/allocator.h \
+ /usr/include/jsoncpp/json/version.h \
+ /usr/include/jsoncpp/json/json_features.h \
+ /usr/include/jsoncpp/json/forwards.h /usr/include/jsoncpp/json/reader.h \
+ /usr/include/jsoncpp/json/value.h /usr/include/c++/11/map \
+ /usr/include/c++/11/bits/stl_tree.h /usr/include/c++/11/bits/stl_map.h \
+ /usr/include/c++/11/bits/stl_multimap.h \
+ /usr/include/c++/11/bits/erase_if.h /usr/include/c++/11/deque \
+ /usr/include/c++/11/bits/stl_deque.h /usr/include/c++/11/bits/deque.tcc \
+ /usr/include/c++/11/stack /usr/include/c++/11/bits/stl_stack.h \
+ /usr/include/jsoncpp/json/writer.h /usr/include/c++/11/algorithm \
+ /usr/include/c++/11/bits/stl_algo.h \
+ /usr/include/c++/11/bits/algorithmfwd.h \
+ /usr/include/c++/11/bits/stl_heap.h \
+ /usr/include/c++/11/bits/uniform_int_dist.h

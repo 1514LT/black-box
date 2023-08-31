@@ -31,6 +31,7 @@ private:
 public:
     TCPClient(const char *serverIP, int serverPort);
     void sendMessage(const Message &message);
+    int getSocket();
     void receiveMessage(Message &message);
     ~TCPClient();
 };

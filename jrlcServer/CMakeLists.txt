@@ -1,8 +1,9 @@
 cmake_minimum_required(VERSION 3.10)
 project(jrlcServer)
-
+INCLUDE_DIRECTORIES(/usr/include/jsoncpp)
 set(CMAKE_CXX_STANDARD 11)
-
+find_package(PkgConfig REQUIRED)
+pkg_check_modules(JSONCPP REQUIRED jsoncpp)
 add_executable(jrlcServer TCPServer.cpp)
-
+target_link_libraries(jrlcServer PRIVATE ${JSONCPP_LIBRARIES})
 target_include_directories(jrlcServer PRIVATE ${CMAKE_CURRENT_SOURCE_DIR})
